@@ -28,6 +28,7 @@
   "scripts": {
     "start": "node build/src/main.js",
     "start:forever": "forever build/src/main.js",
+    "start:all": "npm run start:eth & npm run start:bsc & npm run start:polygon & npm run start:metis & npm run start:fuse & npm run start:avalanche & npm run start:fantom",
     "start:eth": "npm run start -- --network=eth",
     "start:bsc": "npm run start -- --network=bsc",
     "start:polygon": "npm run start -- --network=polygon",

@@ -109,6 +109,7 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
 
         const logPair = (prefix?: string) => {
           log(`${prefix || ''}
+  network: ${network.name}
   address: ${pairAddress}
   chart: ${network.chartURL
     .replace('{pair}', pairAddress)
