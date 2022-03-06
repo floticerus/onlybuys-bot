@@ -27,3 +27,7 @@ build/
 
 # Misc
 .DS_Store
+
+# ignore all .env files, but allow example.env
+*.env*
+!example.env
