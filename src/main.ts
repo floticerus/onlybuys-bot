@@ -34,7 +34,14 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
     //
     const router = new Contract(routerAddress, UniswapV2Router02, wallet)
 
-    const weth = new Contract(await router.WETH(), ERC20, provider)
+    const weth = new Contract(
+      await (network.chainId === 1088 &&
+      routerAddress === '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56'
+        ? router.Metis()
+        : router.WETH()),
+      ERC20,
+      provider,
+    )
 
     log(`Wrapped native token: ${await weth.symbol()}, ${weth.address}`)
 

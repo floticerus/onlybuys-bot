@@ -46,7 +46,14 @@ console.log(`
     )
 
     const token = new Contract(address, ERC20, provider)
-    const paired = new Contract(await router.WETH(), ERC20, provider)
+    const paired = new Contract(
+      await (network.chainId === 1088 &&
+      routerAddress === '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56'
+        ? router.Metis()
+        : router.WETH()),
+      ERC20,
+      provider,
+    )
 
     const [tokenBalance, pairBalance] = await Promise.all([
       token.balanceOf(pairAddress),

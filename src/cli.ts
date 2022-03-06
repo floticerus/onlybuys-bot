@@ -55,7 +55,7 @@ program
 program.parse(process.argv)
 
 export interface CLIOptions {
-  network: 'eth' | '1' | 'bsc' | '56'
+  network: string
   handshakeInterval: string
   buyAmount: string
   minBalance: string

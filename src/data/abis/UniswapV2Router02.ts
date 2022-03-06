@@ -14,6 +14,14 @@ export default [
     stateMutability: 'view',
     type: 'function',
   },
+  // needed for netswap - they changed uniswap code for some reason
+  {
+    inputs: [],
+    name: 'Metis',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [
       { internalType: 'address', name: 'tokenA', type: 'address' },

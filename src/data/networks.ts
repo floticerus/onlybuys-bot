@@ -38,6 +38,25 @@ export const BSC: NetworkData = {
   chartURL: 'https://poocoin.app/tokens/{token}',
 }
 
+export const MetisAndromeda: NetworkData = {
+  chainId: 1088,
+  name: 'Metis Andromeda',
+  rpcURL: 'https://andromeda.metis.io/?owner=1088',
+  explorerURL: 'https://andromeda-explorer.metis.io/',
+  nativeCurrency: {
+    name: 'Metis',
+    symbol: 'METIS',
+    decimals: 18,
+  },
+  routers: [
+    // idk what this one is?? tethys?
+    '0x81b9FA50D5f5155Ee17817C21702C3AE4780AD09',
+    // netswap
+    '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56',
+  ],
+  chartURL: 'https://dexscreener.com/metis/{pair}',
+}
+
 export const network = (() => {
   switch (options.network) {
     case 'eth':
@@ -47,5 +66,8 @@ export const network = (() => {
     case '56':
     default:
       return BSC
+    case 'metis':
+    case '1088':
+      return MetisAndromeda
   }
 })()
