@@ -29,3 +29,19 @@ export const getWethFunctionForRouter = (routerAddress: string) => {
       return 'WETH'
   }
 }
+
+/** this nasty hardcoded switch on router address is probably bad. move to config eventually. */
+export const getBuyFunctionForRouter = (routerAddress: string) => {
+  switch (routerAddress) {
+    // netswap
+    case '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56':
+      return 'swapExactMetisForTokensSupportingFeeOnTransferTokens'
+    // trader-joe
+    case '0x60aE616a2155Ee3d9A68541Ba4544862310933d4':
+    // pangolin
+    case '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106':
+      return 'swapExactAVAXForTokensSupportingFeeOnTransferTokens'
+    default:
+      return 'swapExactETHForTokensSupportingFeeOnTransferTokens'
+  }
+}

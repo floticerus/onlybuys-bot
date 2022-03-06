@@ -9,7 +9,12 @@ import UniswapV2Router02 from './data/abis/UniswapV2Router02'
 import UniswapV2Factory from './data/abis/UniswapV2Factory'
 import UniswapV2Pair from './data/abis/UniswapV2Pair'
 import ERC20 from './data/abis/ERC20'
-import { provider, wallet, getWethFunctionForRouter } from './common'
+import {
+  provider,
+  wallet,
+  getWethFunctionForRouter,
+  getBuyFunctionForRouter,
+} from './common'
 
 const { formatEther, formatUnits, parseEther, commify } = utils
 
@@ -178,7 +183,7 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
             )
 
             await (
-              await router.swapExactETHForTokensSupportingFeeOnTransferTokens(
+              await router[getBuyFunctionForRouter(routerAddress)](
                 minimumAmountToBuy,
                 [
                   is0 ? token1Address : token0Address,

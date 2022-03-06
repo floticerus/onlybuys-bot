@@ -314,6 +314,32 @@ export default [
     stateMutability: 'payable',
     type: 'function',
   },
+  // for netswap
+  {
+    inputs: [
+      { internalType: 'uint256', name: 'amountOutMin', type: 'uint256' },
+      { internalType: 'address[]', name: 'path', type: 'address[]' },
+      { internalType: 'address', name: 'to', type: 'address' },
+      { internalType: 'uint256', name: 'deadline', type: 'uint256' },
+    ],
+    name: 'swapExactMetisForTokensSupportingFeeOnTransferTokens',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  // for trader joe and pangolin
+  {
+    inputs: [
+      { internalType: 'uint256', name: 'amountOutMin', type: 'uint256' },
+      { internalType: 'address[]', name: 'path', type: 'address[]' },
+      { internalType: 'address', name: 'to', type: 'address' },
+      { internalType: 'uint256', name: 'deadline', type: 'uint256' },
+    ],
+    name: 'swapExactAVAXForTokensSupportingFeeOnTransferTokens',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
   {
     inputs: [
       { internalType: 'uint256', name: 'amountIn', type: 'uint256' },
