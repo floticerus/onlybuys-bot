@@ -22,7 +22,7 @@ export default [
     stateMutability: 'view',
     type: 'function',
   },
-  // needed for trader joe - they changed uniswap code for some reason
+  // needed for trader joe and pangolin - they changed uniswap code for some reason
   {
     inputs: [],
     name: 'WAVAX',

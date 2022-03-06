@@ -9,7 +9,7 @@ import UniswapV2Router02 from './data/abis/UniswapV2Router02'
 import UniswapV2Factory from './data/abis/UniswapV2Factory'
 import UniswapV2Pair from './data/abis/UniswapV2Pair'
 import ERC20 from './data/abis/ERC20'
-import { provider, wallet } from './common'
+import { provider, wallet, getWethFunctionForRouter } from './common'
 
 const { formatEther, formatUnits, parseEther, commify } = utils
 
@@ -17,7 +17,7 @@ log(`Setting up ${network.name} network`)
 log(`Portfolio data directory: ${portfolioStorage.dir}`)
 ;(async () => {
   setInterval(() => {
-    log('Sending handshake...')
+    // log('Sending handshake...')
     wallet.getBalance().catch(console.error)
   }, parseInt(options.handshakeInterval) * 1000)
 
@@ -36,12 +36,7 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
     const router = new Contract(routerAddress, UniswapV2Router02, wallet)
 
     const weth = new Contract(
-      await (network.chainId === 1088 &&
-      routerAddress === '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56'
-        ? router.Metis()
-        : routerAddress === '0x60aE616a2155Ee3d9A68541Ba4544862310933d4'
-        ? router.WAVAX()
-        : router.WETH()),
+      await router[getWethFunctionForRouter(routerAddress)](),
       ERC20,
       provider,
     )

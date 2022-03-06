@@ -6,7 +6,7 @@ import { Contract, utils } from 'ethers'
 import { network } from './data/networks'
 import portfolioStorage, { updatePortfolio } from './portfolioStorage'
 import { PortfolioTokenData } from './typings'
-import { provider } from './common'
+import { provider, getWethFunctionForRouter } from './common'
 import UniswapV2Router02 from './data/abis/UniswapV2Router02'
 import ERC20 from './data/abis/ERC20'
 
@@ -47,12 +47,7 @@ console.log(`
 
     const token = new Contract(address, ERC20, provider)
     const paired = new Contract(
-      await (network.chainId === 1088 &&
-      routerAddress === '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56'
-        ? router.Metis()
-        : routerAddress === '0x60aE616a2155Ee3d9A68541Ba4544862310933d4'
-        ? router.WAVAX()
-        : router.WETH()),
+      await router[getWethFunctionForRouter(routerAddress)](),
       ERC20,
       provider,
     )

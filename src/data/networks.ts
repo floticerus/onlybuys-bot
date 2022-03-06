@@ -15,6 +15,8 @@ export const Ethereum: NetworkData = {
   routers: [
     // uniswap v2
     '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+    // sushiswap
+    '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F',
   ],
   chartURL: 'https://dexscreener.com/ethereum/{pair}',
 }
@@ -34,6 +36,10 @@ export const BSC: NetworkData = {
   routers: [
     // pancakeswap v2
     '0x10ED43C718714eb63d5aA57B78B54704E256024E',
+    // apeswap
+    '0xcF0feBd3f17CEf5b47b0cD257aCf6025c5BFf3b7',
+    // sushiswap
+    '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
   // chartURL: 'https://dexscreener.com/bsc/{pair}',
   chartURL: 'https://poocoin.app/tokens/{token}',
@@ -113,6 +119,8 @@ export const Avalanche: NetworkData = {
   routers: [
     // trader joe
     '0x60aE616a2155Ee3d9A68541Ba4544862310933d4',
+    // pangolin
+    '0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106',
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
@@ -134,6 +142,8 @@ export const Fantom: NetworkData = {
     '0xF491e7B69E4244ad4002BC14e878a34207E38c29',
     // spiritswap
     '0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52',
+    // sushiswap
+    '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
   chartURL: 'https://dexscreener.com/fantom/{pair}',
 }
