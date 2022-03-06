@@ -1,39 +1,20 @@
 import 'dotenv/config'
 import { options } from './cli'
-import * as networks from './data/networks'
+import { network } from './data/networks'
 import { log } from './logger'
-import { providers, Wallet, Contract, utils, BigNumber } from 'ethers'
+import { PortfolioTokenData } from './typings'
+import portfolioStorage from './portfolioStorage'
+import { Contract, utils, BigNumber } from 'ethers'
 import UniswapV2Router02 from './data/abis/UniswapV2Router02'
 import UniswapV2Factory from './data/abis/UniswapV2Factory'
 import UniswapV2Pair from './data/abis/UniswapV2Pair'
 import ERC20 from './data/abis/ERC20'
+import { provider, wallet } from './common'
 
-const { WebSocketProvider, JsonRpcProvider } = providers
-const { fromMnemonic } = Wallet
 const { formatEther, formatUnits, parseEther, commify } = utils
 
-export const network = (() => {
-  switch (options.network) {
-    case 'eth':
-    case '1':
-      return networks.Ethereum
-    case 'bsc':
-    case '56':
-    default:
-      return networks.BSC
-  }
-})()
-
-export let provider: providers.WebSocketProvider | providers.JsonRpcProvider
-export let wallet: Wallet
+log(`Portfolio data directory: ${portfolioStorage.dir}`)
 ;(async () => {
-  // prefer to use websocket provider, use http rpc provider as fallback
-  provider = network.websocketURL
-    ? new WebSocketProvider(network.websocketURL, network)
-    : new JsonRpcProvider(network.rpcURL, network)
-
-  wallet = new Wallet(fromMnemonic(process.env.MNEMONIC).privateKey, provider)
-
   setInterval(() => {
     log('Sending handshake...')
     wallet.getBalance().catch(console.error)
@@ -72,6 +53,18 @@ export let wallet: Wallet
         const token0 = new Contract(token0Address, ERC20, wallet)
         const token1 = new Contract(token1Address, ERC20, wallet)
 
+        // determine if we should track
+        const validTokenForTrade =
+          token0Address === weth.address
+            ? token1
+            : token1Address === weth.address
+            ? token0
+            : undefined
+
+        if (!validTokenForTrade) return
+
+        const is0 = token0Address === validTokenForTrade.address
+
         const [name0, name1, symbol0, symbol1, decimals0, decimals1] =
           await Promise.all([
             token0.name() as Promise<string>,
@@ -97,12 +90,14 @@ export let wallet: Wallet
             ],
           )
 
-          pooledPercent0 =
-            parseFloat(balance0.mul(10000).div(totalSupply0).toString()) *
-            0.0001
-          pooledPercent1 =
-            parseFloat(balance1.mul(10000).div(totalSupply1).toString()) *
-            0.0001
+          pooledPercent0 = totalSupply0.eq(0)
+            ? 0
+            : parseFloat(balance0.mul(10000).div(totalSupply0).toString()) *
+              0.0001
+          pooledPercent1 = totalSupply1.eq(0)
+            ? 0
+            : parseFloat(balance1.mul(10000).div(totalSupply1).toString()) *
+              0.0001
         }
 
         await updateBalances()
@@ -110,6 +105,9 @@ export let wallet: Wallet
         const logPair = (prefix?: string) => {
           log(`${prefix || ''}
   address: ${pairAddress}
+  chart: ${network.chartURL
+    .replace('{pair}', pairAddress)
+    .replace('{token}', is0 ? token0Address : token1Address)}
   router: ${routerAddress}
   token0:
     name: ${name0} (${symbol0})
@@ -128,18 +126,6 @@ export let wallet: Wallet
         }
 
         logPair('Pair created')
-
-        // determine if we should track
-        const validTokenForTrade =
-          token0Address === weth.address
-            ? token1
-            : token1Address === weth.address
-            ? token0
-            : undefined
-
-        if (!validTokenForTrade) return
-
-        const is0 = token0Address === validTokenForTrade.address
 
         log(
           `Can buy ${is0 ? symbol0 : symbol1} with ${
@@ -181,22 +167,61 @@ export let wallet: Wallet
 
           // make the buy
           try {
-            await router.swapExactETHForTokensSupportingFeeOnTransferTokens(
-              minimumAmountToBuy,
-              [
-                is0 ? token1Address : token0Address,
-                is0 ? token0Address : token1Address,
-              ],
+            const oldBalance = await (is0 ? token0 : token1).balanceOf(
               wallet.address,
-              BigNumber.from(Math.floor(Date.now() / 1000) + 20),
+            )
+
+            await (
+              await router.swapExactETHForTokensSupportingFeeOnTransferTokens(
+                minimumAmountToBuy,
+                [
+                  is0 ? token1Address : token0Address,
+                  is0 ? token0Address : token1Address,
+                ],
+                wallet.address,
+                BigNumber.from(Math.floor(Date.now() / 1000) + 20),
+                {
+                  value: parseEther(options.buyAmount),
+                  gasPrice: BigNumber.from(options.gasPrice),
+                  gasLimit: BigNumber.from(options.gasLimit),
+                },
+              )
+            ).wait()
+
+            const newBalance = await (is0 ? token0 : token1).balanceOf(
+              wallet.address,
+            )
+
+            const purchasedAmount = newBalance.sub(oldBalance)
+
+            log(
+              `Purchased ${formatUnits(
+                purchasedAmount,
+                is0 ? decimals0 : decimals1,
+              )} ${is0 ? symbol0 : symbol1} with ${options.buyAmount} ${
+                network.nativeCurrency.symbol
+              }`,
+            )
+
+            await portfolioStorage.setJSON<PortfolioTokenData>(
+              is0 ? token0Address : token1Address,
               {
-                value: parseEther(options.buyAmount),
-                gasPrice: BigNumber.from(options.gasPrice),
-                gasLimit: BigNumber.from(options.gasLimit),
+                router: routerAddress,
+                address: is0 ? token0Address : token1Address,
+                name: is0 ? name0 : name1,
+                symbol: is0 ? symbol0 : symbol1,
+                decimals: is0 ? decimals0 : decimals1,
+                totalSupply: formatUnits(
+                  is0 ? totalSupply0 : totalSupply1,
+                  is0 ? decimals0 : decimals1,
+                ),
+                balance: formatUnits(newBalance, is0 ? decimals0 : decimals1),
+                pair: pairAddress,
+                // value: 0,
               },
             )
           } catch (err) {
-            log(`Transaction error: ${err.message ?? 'Unknown error'}`)
+            log(err.message ?? 'Unknown error')
           }
         }
 
@@ -207,13 +232,6 @@ export let wallet: Wallet
 
           if (!hasEnoughPooled) {
             log('Does not have enough pooled tokens to buy')
-            return false
-          }
-
-          const balance = await wallet.getBalance()
-
-          if (balance.lte(parseEther(options.minBalance))) {
-            log(`Current balance of ${formatEther(balance)} is too low to buy`)
             return false
           }
 
@@ -235,6 +253,13 @@ export let wallet: Wallet
           }
 
           log('Liquidity is within buy range!')
+
+          const balance = await wallet.getBalance()
+
+          if (balance.lte(parseEther(options.minBalance))) {
+            log(`Current balance of ${formatEther(balance)} is too low to buy`)
+            return false
+          }
 
           return true
         }

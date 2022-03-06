@@ -35,6 +35,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
+    "portfolio": "node build/src/output-portfolio.js",
     "privatekey": "node build/src/output-private-key.js",
     "help": "node build/src/main.js --help"
   },
