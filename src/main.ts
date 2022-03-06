@@ -13,6 +13,7 @@ import { provider, wallet } from './common'
 
 const { formatEther, formatUnits, parseEther, commify } = utils
 
+log(`Setting up ${network.name} network`)
 log(`Portfolio data directory: ${portfolioStorage.dir}`)
 ;(async () => {
   setInterval(() => {

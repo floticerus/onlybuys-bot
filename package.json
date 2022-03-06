@@ -28,6 +28,11 @@
   "scripts": {
     "start": "node build/src/main.js",
     "start:forever": "forever build/src/main.js",
+    "start:eth": "npm run start -- --network=eth",
+    "start:bsc": "npm run start -- --network=bsc",
+    "start:polygon": "npm run start -- --network=polygon",
+    "start:metis": "npm run start -- --network=metis",
+    "start:fuse": "npm run start -- --network=fuse",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.release.json",
