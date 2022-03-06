@@ -50,6 +50,8 @@ console.log(`
       await (network.chainId === 1088 &&
       routerAddress === '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56'
         ? router.Metis()
+        : routerAddress === '0x60aE616a2155Ee3d9A68541Ba4544862310933d4'
+        ? router.WAVAX()
         : router.WETH()),
       ERC20,
       provider,

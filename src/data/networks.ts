@@ -100,6 +100,44 @@ export const Polygon: NetworkData = {
   chartURL: 'https://dexscreener.com/polygon/{pair}',
 }
 
+export const Avalanche: NetworkData = {
+  chainId: 43114,
+  name: 'Avalanche',
+  rpcURL: 'https://api.avax.network/ext/bc/C/rpc',
+  explorerURL: 'https://snowtrace.io/',
+  nativeCurrency: {
+    name: 'Avalanche',
+    symbol: 'AVAX',
+    decimals: 18,
+  },
+  routers: [
+    // trader joe
+    '0x60aE616a2155Ee3d9A68541Ba4544862310933d4',
+    // sushiswap
+    '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
+  ],
+  chartURL: 'https://dexscreener.com/avalanche/{pair}',
+}
+
+export const Fantom: NetworkData = {
+  chainId: 250,
+  name: 'Fantom Opera',
+  rpcURL: 'https://rpc.ftm.tools/',
+  explorerURL: 'https://ftmscan.com/',
+  nativeCurrency: {
+    name: 'Fantom',
+    symbol: 'FTM',
+    decimals: 18,
+  },
+  routers: [
+    // spookyswap
+    '0xF491e7B69E4244ad4002BC14e878a34207E38c29',
+    // spiritswap
+    '0x16327E3FbDaCA3bcF7E38F5Af2599D2DDc33aE52',
+  ],
+  chartURL: 'https://dexscreener.com/fantom/{pair}',
+}
+
 export const network = (() => {
   switch (options.network) {
     case 'eth':
@@ -120,5 +158,13 @@ export const network = (() => {
     case 'matic':
     case '137':
       return Polygon
+    case 'avax':
+    case 'avalanche':
+    case '43114':
+      return Avalanche
+    case 'fantom':
+    case 'ftm':
+    case '250':
+      return Fantom
   }
 })()

@@ -22,6 +22,14 @@ export default [
     stateMutability: 'view',
     type: 'function',
   },
+  // needed for trader joe - they changed uniswap code for some reason
+  {
+    inputs: [],
+    name: 'WAVAX',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
   {
     inputs: [
       { internalType: 'address', name: 'tokenA', type: 'address' },

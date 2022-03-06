@@ -33,6 +33,8 @@
     "start:polygon": "npm run start -- --network=polygon",
     "start:metis": "npm run start -- --network=metis",
     "start:fuse": "npm run start -- --network=fuse",
+    "start:avalanche": "npm run start -- --network=avalanche",
+    "start:fantom": "npm run start -- --network=fantom",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.release.json",
