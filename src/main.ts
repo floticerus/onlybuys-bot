@@ -270,13 +270,15 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
           return true
         }
 
-        ;(await shouldBuy()) && (await buy())
-
-        pair.once('Mint', async (/*data*/) => {
-          await updateBalances()
-          logPair(`Pair ${pair.address} minted`)
-          ;(await shouldBuy()) && (await buy())
-        })
+        if (await shouldBuy()) {
+          await buy()
+        } else {
+          pair.once('Mint', async (/*data*/) => {
+            await updateBalances()
+            logPair(`Pair ${pair.address} minted`)
+            ;(await shouldBuy()) && (await buy())
+          })
+        }
       },
     )
   })
