@@ -26,6 +26,7 @@ export const BSC: NetworkData = {
   // websocketURL: 'wss://bsc-ws-node.nariox.org:443',
   explorerURL: 'https://bscscan.com',
   nativeCurrency: {
+    // is this called "Build and Build" now?
     name: 'Binance Coin',
     symbol: 'BNB',
     decimals: 18,
@@ -49,12 +50,54 @@ export const MetisAndromeda: NetworkData = {
     decimals: 18,
   },
   routers: [
-    // idk what this one is?? tethys?
+    // tethys
     '0x81b9FA50D5f5155Ee17817C21702C3AE4780AD09',
     // netswap
     '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56',
   ],
   chartURL: 'https://dexscreener.com/metis/{pair}',
+}
+
+export const Fuse: NetworkData = {
+  chainId: 122,
+  name: 'Fuse',
+  rpcURL: 'https://rpc.fuse.io/',
+  explorerURL: 'https://explorer.fuse.io/',
+  nativeCurrency: {
+    name: 'Fuse',
+    symbol: 'FUSE',
+    decimals: 18,
+  },
+  routers: [
+    // voltage
+    '0xFB76e9E7d88E308aB530330eD90e84a952570319',
+    // elk
+    '0x9a5De8C973c2f64f0f518DE581BcC2aa2dF8A621',
+    // sushiswap
+    '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
+  ],
+  chartURL: 'https://dexscreener.com/fuse/{pair}',
+}
+
+export const Polygon: NetworkData = {
+  chainId: 137,
+  name: 'Polygon',
+  rpcURL: 'https://polygon-rpc.com/',
+  explorerURL: 'https://polygonscan.com/',
+  nativeCurrency: {
+    name: 'Matic',
+    symbol: 'MATIC',
+    decimals: 18,
+  },
+  routers: [
+    // quickswap
+    '0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff',
+    // uniswap?
+    // '0x7a250d5630b4cf539739df2c5dacb4c659f2488d',
+    // sushiswap
+    '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
+  ],
+  chartURL: 'https://dexscreener.com/polygon/{pair}',
 }
 
 export const network = (() => {
@@ -63,11 +106,19 @@ export const network = (() => {
     case '1':
       return Ethereum
     case 'bsc':
+    case 'bnb':
     case '56':
     default:
       return BSC
     case 'metis':
     case '1088':
       return MetisAndromeda
+    case 'fuse':
+    case '122':
+      return Fuse
+    case 'polygon':
+    case 'matic':
+    case '137':
+      return Polygon
   }
 })()
