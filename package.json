@@ -29,6 +29,7 @@
     "start": "node build/src/main.js",
     "start:forever": "forever build/src/main.js",
     "start:all": "node build/src/master.js",
+    "start:all:forever": "forever build/src/master.js",
     "start:eth": "npm run start -- --network=eth",
     "start:bsc": "npm run start -- --network=bsc",
     "start:polygon": "npm run start -- --network=polygon",
