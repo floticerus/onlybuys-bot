@@ -60,9 +60,10 @@ console.log(`
     console.log(`
 ${name} (${symbol})
 Address: ${address}
-Chart: ${network.chartURL
-      .replace('{pair}', pairAddress)
-      .replace('{token}', address)}
+Charts: ${network.chartURLs.map(
+      (chartURL) => `
+  - ${chartURL.replace('{pair}', pairAddress).replace('{token}', address)}`,
+    )}
 Balance: ${commify(balance)}
 Value: ${formatEther(
       await router.quote(

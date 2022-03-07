@@ -116,9 +116,12 @@ log(`Portfolio data directory: ${portfolioStorage.dir}`)
           log(`${prefix || ''}
   network: ${network.name}
   address: ${pairAddress}
-  chart: ${network.chartURL
-    .replace('{pair}', pairAddress)
-    .replace('{token}', is0 ? token0Address : token1Address)}
+  charts: ${network.chartURLs.map(
+    (chartURL) => `
+    - ${chartURL
+      .replace('{pair}', pairAddress)
+      .replace('{token}', is0 ? token0Address : token1Address)}`,
+  )}
   router: ${routerAddress}
   token0:
     name: ${name0} (${symbol0})

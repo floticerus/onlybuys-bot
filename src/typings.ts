@@ -14,7 +14,7 @@ export interface NetworkData {
   readonly websocketURL?: string
   readonly explorerURL: string
   readonly routers: Array<string>
-  readonly chartURL: string
+  readonly chartURLs: Array<string>
 }
 
 export interface PortfolioTokenData {

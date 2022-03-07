@@ -18,7 +18,7 @@ export const Ethereum: NetworkData = {
     // sushiswap
     '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F',
   ],
-  chartURL: 'https://dexscreener.com/ethereum/{pair}',
+  chartURLs: ['https://dexscreener.com/ethereum/{pair}'],
 }
 
 export const BSC: NetworkData = {
@@ -41,8 +41,10 @@ export const BSC: NetworkData = {
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
-  // chartURL: 'https://dexscreener.com/bsc/{pair}',
-  chartURL: 'https://poocoin.app/tokens/{token}',
+  chartURLs: [
+    'https://poocoin.app/tokens/{token}',
+    'https://dexscreener.com/bsc/{pair}',
+  ],
 }
 
 export const MetisAndromeda: NetworkData = {
@@ -61,7 +63,7 @@ export const MetisAndromeda: NetworkData = {
     // netswap
     '0x1E876cCe41B7b844FDe09E38Fa1cf00f213bFf56',
   ],
-  chartURL: 'https://dexscreener.com/metis/{pair}',
+  chartURLs: ['https://dexscreener.com/metis/{pair}'],
 }
 
 export const Fuse: NetworkData = {
@@ -82,7 +84,7 @@ export const Fuse: NetworkData = {
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
-  chartURL: 'https://dexscreener.com/fuse/{pair}',
+  chartURLs: ['https://dexscreener.com/fuse/{pair}'],
 }
 
 export const Polygon: NetworkData = {
@@ -103,7 +105,7 @@ export const Polygon: NetworkData = {
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
-  chartURL: 'https://dexscreener.com/polygon/{pair}',
+  chartURLs: ['https://dexscreener.com/polygon/{pair}'],
 }
 
 export const Avalanche: NetworkData = {
@@ -124,7 +126,7 @@ export const Avalanche: NetworkData = {
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
-  chartURL: 'https://dexscreener.com/avalanche/{pair}',
+  chartURLs: ['https://dexscreener.com/avalanche/{pair}'],
 }
 
 export const Fantom: NetworkData = {
@@ -145,7 +147,7 @@ export const Fantom: NetworkData = {
     // sushiswap
     '0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506',
   ],
-  chartURL: 'https://dexscreener.com/fantom/{pair}',
+  chartURLs: ['https://dexscreener.com/fantom/{pair}'],
 }
 
 export const network = (() => {
