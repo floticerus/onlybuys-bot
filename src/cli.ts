@@ -7,6 +7,12 @@ program
     process.env.DEFAULT_NETWORK ?? 'bsc',
   )
   .option(
+    '--networks <value>',
+    'Comma separated list of networks to use',
+    process.env.DEFAULT_NETWORKS ??
+      'eth,bsc,avalanche,fantom,metis,fuse,polygon',
+  )
+  .option(
     '-h, --handshake-interval <value>',
     'Time between sending handshakes, to keep websocket alive',
     process.env.HANDSHAKE_INTERVAL ?? '20',
@@ -56,6 +62,7 @@ program.parse(process.argv)
 
 export interface CLIOptions {
   network: string
+  networks: string
   handshakeInterval: string
   buyAmount: string
   minBalance: string
