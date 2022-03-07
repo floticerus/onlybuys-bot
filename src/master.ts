@@ -5,8 +5,6 @@ const cluster = _cluster as unknown as _cluster.Cluster
 import { options } from './cli'
 
 if (cluster.isPrimary) {
-  console.log(options.networks)
-
   const targets = options.networks.split(',').map((v) => v.trim())
 
   const forkWorker = (target: string) => {
