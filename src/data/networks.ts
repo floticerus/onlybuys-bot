@@ -150,6 +150,42 @@ export const Fantom: NetworkData = {
   chartURLs: ['https://dexscreener.com/fantom/{pair}'],
 }
 
+export const Moonriver: NetworkData = {
+  chainId: 1285,
+  name: 'Moonriver',
+  rpcURL: 'https://rpc.api.moonriver.moonbeam.network/',
+  explorerURL: 'https://moonriver.moonscan.io',
+  nativeCurrency: {
+    name: 'Moonriver',
+    symbol: 'MOVR',
+    decimals: 18,
+  },
+  routers: [
+    // solarbeam
+    '0xaa30ef758139ae4a7f798112902bf6d65612045f',
+    // huckleberry
+    '0x2d4e873f9Ab279da9f1bb2c532d4F06f67755b77',
+  ],
+  chartURLs: ['https://dexscreener.com/moonriver/{pair}'],
+}
+
+export const Moonbeam: NetworkData = {
+  chainId: 1284,
+  name: 'Moonbeam',
+  rpcURL: 'https://rpc.api.moonbeam.network',
+  explorerURL: 'https://moonscan.io',
+  nativeCurrency: {
+    name: 'Moonbeam',
+    symbol: 'GLMR',
+    decimals: 18,
+  },
+  routers: [
+    // solarflare
+    '0xd3B02Ff30c218c7f7756BA14bcA075Bf7C2C951e',
+  ],
+  chartURLs: ['https://dexscreener.com/moonbeam/{pair}'],
+}
+
 export const network = (() => {
   switch (options.network) {
     case 'eth':
@@ -178,5 +214,13 @@ export const network = (() => {
     case 'ftm':
     case '250':
       return Fantom
+    case 'moonriver':
+    case 'movr':
+    case '1285':
+      return Moonriver
+    case 'moonbeam':
+    case 'glmr':
+    case '1284':
+      return Moonbeam
   }
 })()

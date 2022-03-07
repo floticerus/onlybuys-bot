@@ -37,6 +37,8 @@
     "start:fuse": "npm run start -- --network=fuse",
     "start:avalanche": "npm run start -- --network=avalanche",
     "start:fantom": "npm run start -- --network=fantom",
+    "start:moonriver": "npm run start -- --network=moonriver",
+    "start:moonbeam": "npm run start -- --network=moonbeam",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",
     "build": "tsc -p tsconfig.release.json",
