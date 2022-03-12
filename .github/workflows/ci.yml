@@ -76,87 +76,94 @@ jobs:
       #   env:
       #     CI_OS: ${{ matrix.os }}
       #     TEST_TYPE: fast
-
-  slow-tests:
-    runs-on: ${{ matrix.os }}
-    needs: dependabolt
-    strategy:
-      matrix:
-        os: [windows-latest, macOS-latest, ubuntu-18.04]
-    steps:
-      - name: Fix git checkout line endings
-        run: git config --global core.autocrlf input
-      - uses: actions/checkout@v2.4.0
-      - name: Windows specific setup
-        if: matrix.os == 'windows-latest'
-        shell: bash
-        run: |
-          echo 'C:\Program Files (x86)\WiX Toolset v3.11\bin' >> $GITHUB_PATH
-          npm config set node-gyp "$GITHUB_WORKSPACE\node_modules\node-gyp\bin\node-gyp.js"
-      - name: Linux specific setup
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo add-apt-repository -y ppa:alexlarsson/flatpak
-          sudo rm /etc/apt/sources.list.d/bazel.list
-          sudo rm /etc/apt/sources.list.d/mongo*.list
-          grep -l opensuse /etc/apt/sources.list.d/* | xargs sudo rm
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends snapcraft flatpak-builder elfutils
-          ci/install_runtimes.sh
-      - name: Use Node.js 17.x
-        uses: actions/setup-node@v2.5.1
+      - uses: lucyio/upload-to-release@master
         with:
-          node-version: 17.x
-          cache: yarn
-      - name: Install bolt
-        shell: bash
-        run: |
-          case "$(uname -s)" in
-            Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
-            *) BOLT_VERSION=latest ;;
-          esac
-          npm install -g bolt@$BOLT_VERSION
-      - name: Install
-        run: bolt
-      # - name: Test
-      #   run: bolt coverage:slow
-      #   env:
-      #     DEBUG: electron-installer-snap:snapcraft
-      # - name: Upload code coverage to Codecov
-      #   uses: codecov/codecov-action@v2.1.0
-      #   with:
-      #     file: ./coverage.lcov
-      #     env_vars: CI_OS,TEST_TYPE
-      #   env:
-      #     CI_OS: ${{ matrix.os }}
-      #     TEST_TYPE: slow
+          name: lucyio/electron
+          path: ./packages/electron/out
+          action: unpublished
+          release_id: 0.x.x
+          release-repo: lucyio/electron
 
-  dependabot-automerge:
-    needs: [fast-tests, slow-tests]
-    runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - name: Dependabot metadata
-        id: dependabot-metadata
-        uses: dependabot/fetch-metadata@v1.1.1
-        with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
-      - name: Approve Dependabot PR
-        run: gh pr review --approve "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Auto-merge devDependency or non-major dependency PR
-        if: ${{ steps.dependabot-metadata.outputs.dependency-type || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch' }}
-        run: |
-          gh auth status
-          gh pr merge --admin --squash "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # slow-tests:
+  #   runs-on: ${{ matrix.os }}
+  #   needs: dependabolt
+  #   strategy:
+  #     matrix:
+  #       os: [windows-latest, macOS-latest, ubuntu-18.04]
+  #   steps:
+  #     - name: Fix git checkout line endings
+  #       run: git config --global core.autocrlf input
+  #     - uses: actions/checkout@v2.4.0
+  #     - name: Windows specific setup
+  #       if: matrix.os == 'windows-latest'
+  #       shell: bash
+  #       run: |
+  #         echo 'C:\Program Files (x86)\WiX Toolset v3.11\bin' >> $GITHUB_PATH
+  #         npm config set node-gyp "$GITHUB_WORKSPACE\node_modules\node-gyp\bin\node-gyp.js"
+  #     - name: Linux specific setup
+  #       if: matrix.os == 'ubuntu-latest'
+  #       run: |
+  #         sudo add-apt-repository -y ppa:alexlarsson/flatpak
+  #         sudo rm /etc/apt/sources.list.d/bazel.list
+  #         sudo rm /etc/apt/sources.list.d/mongo*.list
+  #         grep -l opensuse /etc/apt/sources.list.d/* | xargs sudo rm
+  #         sudo apt-get update
+  #         sudo apt-get install -y --no-install-recommends snapcraft flatpak-builder elfutils
+  #         ci/install_runtimes.sh
+  #     - name: Use Node.js 17.x
+  #       uses: actions/setup-node@v2.5.1
+  #       with:
+  #         node-version: 17.x
+  #         cache: yarn
+  #     - name: Install bolt
+  #       shell: bash
+  #       run: |
+  #         case "$(uname -s)" in
+  #           Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
+  #           *) BOLT_VERSION=latest ;;
+  #         esac
+  #         npm install -g bolt@$BOLT_VERSION
+  #     - name: Install
+  #       run: bolt
+  #     # - name: Test
+  #     #   run: bolt coverage:slow
+  #     #   env:
+  #     #     DEBUG: electron-installer-snap:snapcraft
+  #     # - name: Upload code coverage to Codecov
+  #     #   uses: codecov/codecov-action@v2.1.0
+  #     #   with:
+  #     #     file: ./coverage.lcov
+  #     #     env_vars: CI_OS,TEST_TYPE
+  #     #   env:
+  #     #     CI_OS: ${{ matrix.os }}
+  #     #     TEST_TYPE: slow
+
+  # dependabot-automerge:
+  #   needs: [fast-tests, slow-tests]
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.actor == 'dependabot[bot]' }}
+  #   permissions:
+  #     pull-requests: write
+  #     contents: write
+  #   steps:
+  #     - name: Dependabot metadata
+  #       id: dependabot-metadata
+  #       uses: dependabot/fetch-metadata@v1.1.1
+  #       with:
+  #         github-token: '${{ secrets.GITHUB_TOKEN }}'
+  #     - name: Approve Dependabot PR
+  #       run: gh pr review --approve "$PR_URL"
+  #       env:
+  #         PR_URL: ${{ github.event.pull_request.html_url }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: Auto-merge devDependency or non-major dependency PR
+  #       if: ${{ steps.dependabot-metadata.outputs.dependency-type || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch' }}
+  #       run: |
+  #         gh auth status
+  #         gh pr merge --admin --squash "$PR_URL"
+  #       env:
+  #         PR_URL: ${{ github.event.pull_request.html_url }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # docs:
   #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
