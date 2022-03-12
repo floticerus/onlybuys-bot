@@ -21,8 +21,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.run_number }}
-          release_name: Release ${{ github.ref }}-${{ github.run_number }}
+          tag_name: v0.0.${{ github.run_number }}
+          release_name: Release ${{ github.ref }}-v0.0.${{ github.run_number }}
           draft: false
           prerelease: false
   dependabolt:
@@ -100,7 +100,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./packages/electron/out/build.zip
-          asset_name: onlybuys-bot-${{ matrix.os }}-${{ github.ref }}-${{ github.run_number }}.zip
+          asset_name: onlybuys-bot-${{ matrix.os }}-${{ github.ref }}-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
 
   # slow-tests:
