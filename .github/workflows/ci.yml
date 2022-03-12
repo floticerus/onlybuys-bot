@@ -12,27 +12,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  dependabolt:
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - uses: actions/checkout@v2.4.0
-      - name: Use Node.js 17.x
-        uses: actions/setup-node@v2.5.1
-        with:
-          node-version: 17.x
-          cache: yarn
-      - name: Run dependabolt
-        if: ${{ github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'dependabot/npm_and_yarn') && !contains(github.event.pull_request.head.ref, 'npm_and_yarn/packages') }}
-        uses: malept/github-action-dependabolt@v4.0.1
-        env:
-          DEPENDABOLT_SSH_DEPLOY_KEY: ${{ secrets.DEPENDABOLT_SSH_DEPLOY_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # dependabolt:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pull-requests: write
+  #     contents: write
+  #   steps:
+  #     - uses: actions/checkout@v2.4.0
+  #     - name: Use Node.js 17.x
+  #       uses: actions/setup-node@v2.5.1
+  #       with:
+  #         node-version: 17.x
+  #         cache: yarn
+  #     - name: Run dependabolt
+  #       if: ${{ github.event_name == 'pull_request' && startsWith(github.event.pull_request.head.ref, 'dependabot/npm_and_yarn') && !contains(github.event.pull_request.head.ref, 'npm_and_yarn/packages') }}
+  #       uses: malept/github-action-dependabolt@v4.0.1
+  #       env:
+  #         DEPENDABOLT_SSH_DEPLOY_KEY: ${{ secrets.DEPENDABOLT_SSH_DEPLOY_KEY }}
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     runs-on: ${{ matrix.os }}
-    needs: dependabolt
+    # needs: dependabolt
     strategy:
       matrix:
         os: [windows-latest, macOS-latest, ubuntu-latest]
@@ -52,20 +52,28 @@ jobs:
         run: |
           npm install -g npm@8.3.1
           npm install -g npm@latest
-      - name: Install bolt
-        shell: bash
-        run: |
-          case "$(uname -s)" in
-            Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
-            *) BOLT_VERSION=latest ;;
-          esac
-          npm install -g bolt@$BOLT_VERSION
-      - name: Install
-        run: bolt
-      - name: Lint
-        run: bolt lint
-      - name: Build
-        run: bolt build
+      # - name: Install bolt
+      #   shell: bash
+      #   run: |
+      #     case "$(uname -s)" in
+      #       Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
+      #       *) BOLT_VERSION=latest ;;
+      #     esac
+      #     npm install -g bolt@$BOLT_VERSION
+      - name: Install CLI
+        run: yarn workspace @onlybuys-bot/cli install
+      # - name: Lint CLI
+      #   run: yarn workspace @onlybuys-bot/cli run lint
+      - name: Build CLI
+        run: yarn workspace @onlybuys-bot/cli bundle
+      - name: Install rest
+        run: yarn install
+      - name: Build GUI
+        run: yarn workspace @onlybuys-bot/electron package
+      # - name: Lint
+      #   run: bolt lint
+      # - name: Build
+      #   run: bolt build
       # - name: Run tests
       #   run: bolt coverage:fast
       # - name: Upload code coverage to Codecov
