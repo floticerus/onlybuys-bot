@@ -1,6 +1,5 @@
 import tw from 'tailwind-styled-components'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
-import { Button } from '../Button'
 
 export const Root = tw(DropdownMenu.Root)``
 

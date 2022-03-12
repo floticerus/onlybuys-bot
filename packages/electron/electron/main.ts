@@ -1,7 +1,7 @@
 // import { fork } from 'child_process'
 import 'dotenv/config'
 import { app, BrowserWindow, ipcMain, dialog, shell } from 'electron'
-import { clis, forkCLI, CLIOptions } from './cli-runner'
+import { forkCLI, CLIOptions } from './cli-runner'
 import store from './store'
 
 const { openExternal } = shell

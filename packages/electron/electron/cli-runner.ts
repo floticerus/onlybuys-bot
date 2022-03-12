@@ -20,8 +20,8 @@ export interface ActionMessage {
   action: string
 }
 
-export function isActionMessage(message: any): message is ActionMessage {
-  return message?.hasOwnProperty('action') ? true : false
+export function isActionMessage(message: unknown): message is ActionMessage {
+  return message && typeof (message as ActionMessage).action !== 'undefined'
 }
 
 export class CLIWrapper extends EventEmitter {
@@ -82,7 +82,7 @@ export class CLIWrapper extends EventEmitter {
   }
 
   /** forward emits to the ChildProcess instance? */
-  emit(eventName: string | symbol, ...args: any[]) {
+  emit(eventName: string | symbol, ...args: unknown[]) {
     this._instance?.emit(eventName, ...args)
     return super.emit(eventName, ...args)
   }
@@ -136,7 +136,7 @@ export class CLIWrapper extends EventEmitter {
       })
       .on(
         'message',
-        (message: any) => {
+        (message: unknown) => {
           // console.log(
           //   `${this.options.network} client sent action: ${message.action}`,
           // )

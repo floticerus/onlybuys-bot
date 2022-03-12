@@ -66,16 +66,16 @@ jobs:
         run: bolt lint
       - name: Build
         run: bolt build
-      - name: Run tests
-        run: bolt coverage:fast
-      - name: Upload code coverage to Codecov
-        uses: codecov/codecov-action@v2.1.0
-        with:
-          file: ./coverage.lcov
-          env_vars: CI_OS,TEST_TYPE
-        env:
-          CI_OS: ${{ matrix.os }}
-          TEST_TYPE: fast
+      # - name: Run tests
+      #   run: bolt coverage:fast
+      # - name: Upload code coverage to Codecov
+      #   uses: codecov/codecov-action@v2.1.0
+      #   with:
+      #     file: ./coverage.lcov
+      #     env_vars: CI_OS,TEST_TYPE
+      #   env:
+      #     CI_OS: ${{ matrix.os }}
+      #     TEST_TYPE: fast
 
   slow-tests:
     runs-on: ${{ matrix.os }}

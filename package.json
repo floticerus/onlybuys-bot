@@ -20,7 +20,10 @@
     "tsutils": "~3.21.0",
     "typescript": "4.5.5"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "yarn workspace @onlybuys-bot/electron lint",
+    "build": "yarn workspace @onlybuys-bot/electron package"
+  },
   "author": "Kevin <floticerus@users.noreply.github.com>",
   "license": "MIT",
   "workspaces": {
