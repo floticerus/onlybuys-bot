@@ -1,0 +1,8 @@
+tsconfig.*
+*.ts
+webpack.config.js
+jest.config.js
+__tests__
+!build
+yarn-error.log
+node_modules
