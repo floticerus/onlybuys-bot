@@ -1,28 +1,17 @@
 /* eslint-disable  @typescript-eslint/no-var-requires */
 const fs = require('fs')
-const fsExtra = require('fs-extra')
+// const fsExtra = require('fs-extra')
 const path = require('path')
 
 module.exports = (buildPath, electronVersion, platform, arch, done) => {
-  const sourceDir = path.join(
-    __dirname,
-    '../',
-    'node_modules',
-    '@onlybuys-bot',
-    'cli',
-  )
-  const destinationDir = path.join(
-    buildPath,
-    'node_modules',
-    '@onlybuys-bot',
-    'cli',
-  )
+  const source = path.join(__dirname, '../', '../', 'cli', 'bundle.js')
+  const dest = path.join(buildPath, 'cli')
 
-  if (!fs.existsSync(destinationDir)) {
-    fs.mkdirSync(destinationDir, { recursive: true })
+  if (!fs.existsSync(dest)) {
+    fs.mkdirSync(dest, { recursive: true })
   }
 
-  fsExtra.copySync(sourceDir, destinationDir)
+  fs.copyFileSync(source, path.join(dest, 'bundle.js'))
 
   done()
 }

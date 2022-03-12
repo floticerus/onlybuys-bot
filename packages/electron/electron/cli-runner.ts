@@ -92,18 +92,7 @@ export class CLIWrapper extends EventEmitter {
     // const { signal } = this._abortController
 
     this._instance = fork(
-      join(
-        __dirname,
-        '../',
-        '../',
-        'node_modules',
-        '@onlybuys-bot',
-        'cli',
-        // this workaround is here because github actions insists on deleting
-        // everything that's in gitignore, but we can't add bundled files to git
-        toBool(process.env.GH_ACTIONS_CI) ? 'bundle-ci' : 'bundle',
-        'bundle',
-      ),
+      join(__dirname, '../', '../', 'cli', 'bundle'),
       [
         `--network=${this.options.network}`,
         `--buy-amount=${this.options.buyAmount}`,

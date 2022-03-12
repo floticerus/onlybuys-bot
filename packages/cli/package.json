@@ -49,8 +49,6 @@
     "start:moonriver": "yarn start -- --network=moonriver",
     "start:moonbeam": "yarn start -- --network=moonbeam",
     "bundle": "yarn webpack",
-    "bundle:ci": "yarn webpack -c ./webpack.ci.config.js",
-    "bundle:watch": "yarn webpack --watch",
     "maybe-sell-all": "node build/src/maybe-sell-all.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "yarn lint",

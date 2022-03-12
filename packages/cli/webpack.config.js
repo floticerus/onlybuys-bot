@@ -22,7 +22,11 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'bundle'),
+    path: __dirname,
+    // [
+    //   path.resolve(__dirname, 'bundle'),
+    //   path.join(__dirname, '../', 'electron', 'include'),
+    // ],
   },
   plugins: [
     new webpack.ProvidePlugin({

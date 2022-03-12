@@ -117,8 +117,7 @@
         ],
         "afterCopy": [
           "./build-scripts/copy-cli.js"
-        ],
-        "prune": false
+        ]
       },
       "plugins": [
         [
