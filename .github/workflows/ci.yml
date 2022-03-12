@@ -85,7 +85,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: onlybuys-bot-${{ matrix.os }}-v0.0.${{ github.run_number }}
-          path: ${{ github.workspace }}/build.zip
+          path: build.zip
   release:
     runs-on: ubuntu-latest
     needs: build
@@ -105,25 +105,27 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}
-          path: ./
-      - name: 'Windows download path'
+          path: ./onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
+      - name: Windows download path
         run: echo ${{ steps.download-windows-asset.outputs.download-path }}
       - name: Download MacOS release asset
         id: download-macos-asset
         uses: actions/download-artifact@v2
         with:
           name: onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}
-          path: ./
-      - name: 'MacOS download path'
+          path: ./onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
+      - name: MacOS download path
         run: echo ${{ steps.download-macos-asset.outputs.download-path }}
       - name: Download Ubuntu release asset
         id: download-ubuntu-asset
         uses: actions/download-artifact@v2
         with:
           name: onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}
-          path: ./
-      - name: 'Ubuntu download path'
+          path: ./onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
+      - name: Ubuntu download path
         run: echo ${{ steps.download-ubuntu-asset.outputs.download-path }}
+      - name: Working directory contents
+        run: ls
       - name: Upload Windows Asset
         id: upload-windows-release-asset
         uses: actions/upload-release-asset@v1
@@ -131,7 +133,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
+          asset_path: ./onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
       - name: Upload MacOS Asset
@@ -141,7 +143,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
+          asset_path: ./onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
       - name: Upload Ubuntu Asset
@@ -151,6 +153,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
+          asset_path: ./onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
