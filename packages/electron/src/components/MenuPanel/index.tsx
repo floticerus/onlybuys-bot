@@ -30,12 +30,12 @@ export const MenuPanel: React.FC = () => {
       </ButtonArea>
 
       <ButtonArea>
-        <Link to="/account">
+        {/* <Link to="/account">
           <MenuPanelButton
             $active={pathname.startsWith('/account')}
             children={<MenuPanelButtonIcon icon="wallet" />}
           />
-        </Link>
+        </Link> */}
 
         <Link to="/settings">
           <MenuPanelButton
