@@ -21,6 +21,8 @@ jobs:
       - name: Fix git checkout line endings
         run: git config --global core.autocrlf input
       - uses: actions/checkout@v2.4.0
+        with:
+          clean: false
       - name: Use Node.js 17.x
         uses: actions/setup-node@v2.5.1
         with:

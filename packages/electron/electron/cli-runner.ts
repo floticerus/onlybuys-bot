@@ -98,7 +98,7 @@ export class CLIWrapper extends EventEmitter {
         'node_modules',
         '@onlybuys-bot',
         'cli',
-        'build',
+        'bundle',
         'bundle',
       ),
       [
