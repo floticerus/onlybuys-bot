@@ -77,9 +77,10 @@ jobs:
       #     CI_OS: ${{ matrix.os }}
       #     TEST_TYPE: fast
       - name: Zip
+        working-directory: ./packages/electron/out
         uses: montudor/action-zip@v1
         with:
-          args: cd packages/electron/out/ && zip -qq -r build.zip .
+          args: zip -qq -r build.zip .
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@master
