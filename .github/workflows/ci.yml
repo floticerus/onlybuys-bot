@@ -100,10 +100,18 @@ jobs:
           release_name: Release v0.0.${{ github.run_number }}
           draft: false
           prerelease: false
-      - name: Download release asset
+      - name: Download Windows release asset
         uses: actions/download-artifact@v2
         with:
-          name: onlybuys-bot-${{ matrix.os }}-v0.0.${{ github.run_number }}
+          name: onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}
+      - name: Download MacOS release asset
+        uses: actions/download-artifact@v2
+        with:
+          name: onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}
+      - name: Download Ubuntu release asset
+        uses: actions/download-artifact@v2
+        with:
+          name: onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}
       - name: Upload Windows Asset
         id: upload-windows-release-asset
         uses: actions/upload-release-asset@v1
