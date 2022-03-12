@@ -1,6 +1,7 @@
 import { join } from 'path'
 import { EventEmitter } from 'events'
 import { fork, ChildProcess } from 'child_process'
+import { boolean as toBool } from 'boolean'
 // import AbortController from 'abort-controller'
 import store from './store'
 
@@ -98,7 +99,9 @@ export class CLIWrapper extends EventEmitter {
         'node_modules',
         '@onlybuys-bot',
         'cli',
-        'bundle',
+        // this workaround is here because github actions insists on deleting
+        // everything that's in gitignore, but we can't add bundled files to git
+        toBool(process.env.GH_ACTIONS_CI) ? 'bundle-ci' : 'bundle',
         'bundle',
       ),
       [
