@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { EventEmitter } from 'events'
 import { fork, ChildProcess } from 'child_process'
-import AbortController from 'abort-controller'
+// import AbortController from 'abort-controller'
 import store from './store'
 
 export interface CLIOptions {
@@ -42,7 +42,7 @@ export class CLIWrapper extends EventEmitter {
 
   private _instance?: ChildProcess
 
-  private _abortController: AbortController
+  // private _abortController: AbortController
 
   // get abortController() {
   //   return this._abortController
