@@ -1,7 +1,7 @@
 {
   "name": "@onlybuys-bot/cli",
-  "version": "0.0.1",
-  "description": "A bot that only buys.",
+  "version": "0.0.27",
+  "description": "EVM bot with new pair watcher and trading",
   "engines": {
     "node": ">= 16.13"
   },

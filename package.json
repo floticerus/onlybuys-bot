@@ -1,6 +1,6 @@
 {
   "name": "@onlybuys-bot/main",
-  "version": "0.0.1",
+  "version": "0.0.27",
   "description": "Multi-chain EVM compatible bot that buys new launches",
   "engines": {
     "node": ">= 16.13"
@@ -20,7 +20,10 @@
     "tsutils": "~3.21.0",
     "typescript": "4.5.5"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "yarn workspace @onlybuys-bot/electron lint",
+    "build": "yarn workspace @onlybuys-bot/cli bundle && yarn && yarn workspace @onlybuys-bot/electron package"
+  },
   "author": "Kevin <floticerus@users.noreply.github.com>",
   "license": "MIT",
   "workspaces": {
