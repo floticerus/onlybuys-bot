@@ -1,0 +1,11 @@
+import { NetworkData } from '../typings';
+export declare const Ethereum: NetworkData;
+export declare const BSC: NetworkData;
+export declare const MetisAndromeda: NetworkData;
+export declare const Fuse: NetworkData;
+export declare const Polygon: NetworkData;
+export declare const Avalanche: NetworkData;
+export declare const Fantom: NetworkData;
+export declare const Moonriver: NetworkData;
+export declare const Moonbeam: NetworkData;
+export declare const network: NetworkData;
