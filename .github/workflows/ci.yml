@@ -76,15 +76,29 @@ jobs:
       #   env:
       #     CI_OS: ${{ matrix.os }}
       #     TEST_TYPE: fast
-      - uses: lucyio/upload-to-release@master
-        with:
-          name: lucyio/electron
-          path: ./packages/electron/out
-          action: unpublished
-          release_id: 0.x.x
-          release-repo: lucyio/electron
+      - name: Zip
+        run: |
+          cd packages/electron/out/ && zip -r build.zip .
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./packages/electron/out/build.zip
+          asset_name: onlybuys-bot-${{ matrix.os }}-${{ github.ref }}.zip
+          asset_content_type: application/zip
 
   # slow-tests:
   #   runs-on: ${{ matrix.os }}
