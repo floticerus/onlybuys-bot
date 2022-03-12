@@ -118,7 +118,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-windows-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
@@ -128,7 +128,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-macOS-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
@@ -138,7 +138,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
           asset_name: onlybuys-bot-ubuntu-latest-v0.0.${{ github.run_number }}.zip
           asset_content_type: application/zip
