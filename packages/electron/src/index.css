@@ -1,0 +1,4 @@
+/* GlobalStyle isn't working for tailwind, so this css file exists */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
