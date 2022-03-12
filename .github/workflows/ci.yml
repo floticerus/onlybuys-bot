@@ -87,7 +87,7 @@ jobs:
       - name: Upload zip
         uses: actions/upload-artifact@v2
         with:
-          name: onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}.zip
+          name: onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}
           path: ${{ github.workspace }}/build.zip
   release:
     runs-on: ubuntu-latest
@@ -109,119 +109,34 @@ jobs:
       - name: Download release asset
         uses: actions/download-artifact@v2
         with:
-          name: onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}.zip
-      - name: Upload Release Asset
-        id: upload-release-asset
+          name: onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}
+      - name: Upload Windows Asset
+        id: upload-windows-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}.zip
-          asset_name: onlybuys-bot-${{ matrix.os }}-v${{ steps.package-version.outputs.version }}.zip
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./onlybuys-bot-windows-latest-v${{ steps.package-version.outputs.version }}.zip
+          asset_name: onlybuys-bot-windows-latest-v${{ steps.package-version.outputs.version }}.zip
           asset_content_type: application/zip
-
-  # slow-tests:
-  #   runs-on: ${{ matrix.os }}
-  #   needs: dependabolt
-  #   strategy:
-  #     matrix:
-  #       os: [windows-latest, macOS-latest, ubuntu-18.04]
-  #   steps:
-  #     - name: Fix git checkout line endings
-  #       run: git config --global core.autocrlf input
-  #     - uses: actions/checkout@v2.4.0
-  #     - name: Windows specific setup
-  #       if: matrix.os == 'windows-latest'
-  #       shell: bash
-  #       run: |
-  #         echo 'C:\Program Files (x86)\WiX Toolset v3.11\bin' >> $GITHUB_PATH
-  #         npm config set node-gyp "$GITHUB_WORKSPACE\node_modules\node-gyp\bin\node-gyp.js"
-  #     - name: Linux specific setup
-  #       if: matrix.os == 'ubuntu-latest'
-  #       run: |
-  #         sudo add-apt-repository -y ppa:alexlarsson/flatpak
-  #         sudo rm /etc/apt/sources.list.d/bazel.list
-  #         sudo rm /etc/apt/sources.list.d/mongo*.list
-  #         grep -l opensuse /etc/apt/sources.list.d/* | xargs sudo rm
-  #         sudo apt-get update
-  #         sudo apt-get install -y --no-install-recommends snapcraft flatpak-builder elfutils
-  #         ci/install_runtimes.sh
-  #     - name: Use Node.js 17.x
-  #       uses: actions/setup-node@v2.5.1
-  #       with:
-  #         node-version: 17.x
-  #         cache: yarn
-  #     - name: Install bolt
-  #       shell: bash
-  #       run: |
-  #         case "$(uname -s)" in
-  #           Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
-  #           *) BOLT_VERSION=latest ;;
-  #         esac
-  #         npm install -g bolt@$BOLT_VERSION
-  #     - name: Install
-  #       run: bolt
-  #     # - name: Test
-  #     #   run: bolt coverage:slow
-  #     #   env:
-  #     #     DEBUG: electron-installer-snap:snapcraft
-  #     # - name: Upload code coverage to Codecov
-  #     #   uses: codecov/codecov-action@v2.1.0
-  #     #   with:
-  #     #     file: ./coverage.lcov
-  #     #     env_vars: CI_OS,TEST_TYPE
-  #     #   env:
-  #     #     CI_OS: ${{ matrix.os }}
-  #     #     TEST_TYPE: slow
-
-  # dependabot-automerge:
-  #   needs: [fast-tests, slow-tests]
-  #   runs-on: ubuntu-latest
-  #   if: ${{ github.actor == 'dependabot[bot]' }}
-  #   permissions:
-  #     pull-requests: write
-  #     contents: write
-  #   steps:
-  #     - name: Dependabot metadata
-  #       id: dependabot-metadata
-  #       uses: dependabot/fetch-metadata@v1.1.1
-  #       with:
-  #         github-token: '${{ secrets.GITHUB_TOKEN }}'
-  #     - name: Approve Dependabot PR
-  #       run: gh pr review --approve "$PR_URL"
-  #       env:
-  #         PR_URL: ${{ github.event.pull_request.html_url }}
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     - name: Auto-merge devDependency or non-major dependency PR
-  #       if: ${{ steps.dependabot-metadata.outputs.dependency-type || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-minor' || steps.dependabot-metadata.outputs.update-type == 'version-update:semver-patch' }}
-  #       run: |
-  #         gh auth status
-  #         gh pr merge --admin --squash "$PR_URL"
-  #       env:
-  #         PR_URL: ${{ github.event.pull_request.html_url }}
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  # docs:
-  #   if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-  #   needs: [fast-tests, slow-tests]
-  #   runs-on: [ubuntu-latest]
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: Use Node.js 12.x
-  #       uses: actions/setup-node@v2.5.1
-  #       with:
-  #         node-version: 12.x
-  #         cache: yarn
-  #     - name: Install bolt
-  #       shell: bash
-  #       run: |
-  #         case "$(uname -s)" in
-  #           Windows*|CYGWIN*|MINGW*|MSYS*) BOLT_VERSION=0.21.2 ;;
-  #           *) BOLT_VERSION=latest ;;
-  #         esac
-  #         npm install -g bolt@$BOLT_VERSION
-  #     - name: Deploy docs
-  #       run: ci/docs.sh
-  #       env:
-  #         NOW_TOKEN: ${{ secrets.NOW_TOKEN }}
+      - name: Upload MacOS Asset
+        id: upload-macos-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./onlybuys-bot-macOS-latest-v${{ steps.package-version.outputs.version }}.zip
+          asset_name: onlybuys-bot-macOS-latest-v${{ steps.package-version.outputs.version }}.zip
+          asset_content_type: application/zip
+      - name: Upload Ubuntu Asset
+        id: upload-ubuntu-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./onlybuys-bot-ubuntu-latest-v${{ steps.package-version.outputs.version }}.zip
+          asset_name: onlybuys-bot-ubuntu-latest-v${{ steps.package-version.outputs.version }}.zip
+          asset_content_type: application/zip
