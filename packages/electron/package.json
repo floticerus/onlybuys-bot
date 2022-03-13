@@ -112,7 +112,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "name": "Bleep Bloop",
+        "name": "BleepBloop",
         "executableName": "bleep-bloop",
         "icon": "assets/icon",
         "extraResource": [
@@ -148,7 +148,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "Bleep Bloop"
+            "name": "BleepBloop"
           }
         },
         {
