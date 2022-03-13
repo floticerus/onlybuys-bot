@@ -28,7 +28,9 @@ jobs:
           cache: yarn
       - name: install dependencies
         run: yarn install
+      - name: Bundle CLI
+        run: yarn workspace @onlybuys-bot/cli bundle
       - name: publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn publish
+        run: cd packages/electron && yarn publish
