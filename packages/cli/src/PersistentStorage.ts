@@ -30,7 +30,7 @@ export default class PersistentStorage {
 
     // make sure `dir` exists
     try {
-      mkdirSync(this.dir)
+      mkdirSync(this.dir, { recursive: true })
     } catch (err) {
       //
     }
