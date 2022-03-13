@@ -26,11 +26,11 @@ jobs:
         with:
           node-version: 17.x
           cache: yarn
-      - name: install dependencies
+      - name: Install dependencies
         run: yarn install
       - name: Bundle CLI
         run: yarn workspace @onlybuys-bot/cli bundle
-      - name: publish
+      - name: Publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cd packages/electron && yarn publish
+        run: cd packages/electron && yarn release
