@@ -1,6 +1,7 @@
 import { join } from 'path'
 import { EventEmitter } from 'events'
 import { fork, ChildProcess } from 'child_process'
+// import { boolean as toBool } from 'boolean'
 // import AbortController from 'abort-controller'
 import store from './store'
 
@@ -91,16 +92,7 @@ export class CLIWrapper extends EventEmitter {
     // const { signal } = this._abortController
 
     this._instance = fork(
-      join(
-        __dirname,
-        '../',
-        '../',
-        'node_modules',
-        '@onlybuys-bot',
-        'cli',
-        'build',
-        'bundle',
-      ),
+      join(__dirname, '../', '../', 'cli', 'bundle'),
       [
         `--network=${this.options.network}`,
         `--buy-amount=${this.options.buyAmount}`,
