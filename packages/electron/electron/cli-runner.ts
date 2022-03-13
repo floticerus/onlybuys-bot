@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { EventEmitter } from 'events'
 import { fork, ChildProcess } from 'child_process'
-import { boolean as toBool } from 'boolean'
+// import { boolean as toBool } from 'boolean'
 // import AbortController from 'abort-controller'
 import store from './store'
 

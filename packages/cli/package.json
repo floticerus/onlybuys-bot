@@ -1,6 +1,6 @@
 {
   "name": "@onlybuys-bot/cli",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "EVM bot with new pair watcher and trading",
   "engines": {
     "node": ">= 16.13"

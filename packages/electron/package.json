@@ -1,7 +1,7 @@
 {
   "name": "@onlybuys-bot/electron",
   "author": "Kevin <floticerus@users.noreply.github.com>",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "description": "UI application for onlybuys-bot",
   "main": "./.webpack/main",
   "scripts": {
