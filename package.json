@@ -23,7 +23,7 @@
   "scripts": {
     "lint": "yarn workspace @onlybuys-bot/electron lint",
     "build": "yarn workspace @onlybuys-bot/cli bundle && yarn workspace @onlybuys-bot/electron package",
-    "release": "yarn workspace @onlybuys-bot/cli bundle && yarn workspace @onlybuys-bot/electron release"
+    "publish": "yarn workspace @onlybuys-bot/cli bundle && yarn workspace @onlybuys-bot/electron release"
   },
   "author": "Kevin <floticerus@users.noreply.github.com>",
   "license": "MIT",
